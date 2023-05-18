@@ -57,7 +57,7 @@ uint8 KEYPAD_getPressedKey(void)
 	{
 		for(row=0 ; row<KEYPAD_NUM_ROWS ; row++) /* loop for rows */
 		{
-			/* 
+			/*
 			 * Each time setup the direction for all keypad port as input pins,
 			 * except this row will be output pin
 			 */
@@ -88,7 +88,7 @@ uint8 KEYPAD_getPressedKey(void)
 			}
 			GPIO_setupPinDirection(KEYPAD_ROW_PORT_ID,KEYPAD_FIRST_ROW_PIN_ID+row,PIN_INPUT);
 		}
-	}	
+	}
 }
 
 #ifndef STANDARD_KEYPAD

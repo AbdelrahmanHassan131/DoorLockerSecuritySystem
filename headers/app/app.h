@@ -12,11 +12,14 @@
 
 PasswordStage passwordStage;
 char m_Password[4];
-uint8 passwordLenght = 0;
+uint8 passwordLenght;
+uint8 m_KeyPressed;
 
 void App_Init();
 void App_CreatePassword(ProtectionState doorProtectionState);
+void App_SendPassword(ProtectionState doorProtectionState);
 void App_WritePassword(uint8 password);
 void App_SavePassword();
+uint8 App_ConfirmPassword(uint8 keyPressed);
 
 #endif /* HEADERS_APP_APP_H_ */

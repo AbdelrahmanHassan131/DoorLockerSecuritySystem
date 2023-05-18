@@ -30,6 +30,16 @@
 							<tool id="de.innot.avreclipse.tool.compiler.winavr.app.debug.616719399" name="AVR Compiler" superClass="de.innot.avreclipse.tool.compiler.winavr.app.debug">
 								<option id="de.innot.avreclipse.compiler.option.debug.level.23882800" name="Generate Debugging Info" superClass="de.innot.avreclipse.compiler.option.debug.level"/>
 								<option id="de.innot.avreclipse.compiler.option.optimize.915027010" name="Optimization Level" superClass="de.innot.avreclipse.compiler.option.optimize"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="de.innot.avreclipse.compiler.option.incpath.1161649524" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/app}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/hal/KEYPAD}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/hal/LCD}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/hal/SENSORS}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/mcal/DIO}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/mcal/ICU}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/mcal/USART}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers}&quot;"/>
+								</option>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.1714008167" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>
 							<tool id="de.innot.avreclipse.tool.cppcompiler.app.debug.447968126" name="AVR C++ Compiler" superClass="de.innot.avreclipse.tool.cppcompiler.app.debug">
@@ -119,12 +129,15 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="DoorLockerSecuritySystem.de.innot.avreclipse.project.winavr.elf_2.1.0.1271695747" name="AVR Cross Target Application" projectType="de.innot.avreclipse.project.winavr.elf_2.1.0"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.debug.1336894187;de.innot.avreclipse.configuration.app.debug.1336894187.;de.innot.avreclipse.tool.compiler.winavr.app.debug.616719399;de.innot.avreclipse.compiler.winavr.input.1714008167">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.release.1760276999;de.innot.avreclipse.configuration.app.release.1760276999.;de.innot.avreclipse.tool.compiler.winavr.app.release.1516171590;de.innot.avreclipse.compiler.winavr.input.1812740920">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

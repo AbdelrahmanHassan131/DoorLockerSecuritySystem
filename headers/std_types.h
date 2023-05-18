@@ -31,6 +31,7 @@ typedef unsigned char boolean;
 
 typedef enum
 	{NO_PASSWORD,
+	PASSWORD_CREATED,
 	PASSWORD_PROTECTED} ProtectionState;
 typedef enum {
 	ENTERING_PASSWORD_STATE,
@@ -38,7 +39,6 @@ typedef enum {
 	REENTERING_PASSWORD_STATE,
 	CONFIRMING_PASSWORD_STATE,
 	SAVED_PASSWORD_STATE} PasswordStage;
-}
 
 typedef enum {ADC_PRESCAER_2,
 			  ADC_PRESCAER_2_R,

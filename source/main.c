@@ -7,13 +7,18 @@ int main()
 
 	while (1)
 	{
-		if (DoorProtectionState == NO_PASSWORD)
+		switch(DoorProtectionState)
 		{
-			App_CreatePassword(DoorProtectionState);
-		}
-		else
-		{
-			App_WelcomeScreen();
+			case NO_PASSWORD:
+				App_CreatePassword(DoorProtectionState);
+				break;
+			case PASSWORD_CREATED:
+				App_SendPassword(DoorProtectionState);
+				break;
+			case PASSWORD_PROTECTED:
+				//App_WelcomeScreen();
+				break;
+
 		}
 	}
 
