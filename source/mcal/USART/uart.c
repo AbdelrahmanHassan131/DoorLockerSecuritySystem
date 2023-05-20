@@ -25,7 +25,7 @@
  * 2. Enable the UART.
  * 3. Setup the UART baud rate.
  */
-void UART_init(uint32 baud_rate)
+void UART_init(const UART_ConfigType * Config_Ptr)
 {
 	uint16 ubrr_value = 0;
 
@@ -38,7 +38,6 @@ void UART_init(uint32 baud_rate)
 	 * UDRIE = 0 Disable USART Data Register Empty Interrupt Enable
 	 * RXEN  = 1 Receiver Enable
 	 * RXEN  = 1 Transmitter Enable
-	 * UCSZ2 = 0 For 8-bit data mode
 	 * RXB8 & TXB8 not used for 8-bit data mode
 	 ***********************************************************************/ 
 	UCSRB = (1<<RXEN) | (1<<TXEN);
@@ -46,15 +45,36 @@ void UART_init(uint32 baud_rate)
 	/************************** UCSRC Description **************************
 	 * URSEL   = 1 The URSEL must be one when writing the UCSRC
 	 * UMSEL   = 0 Asynchronous Operation
-	 * UPM1:0  = 00 Disable parity bit
-	 * USBS    = 0 One stop bit
-	 * UCSZ1:0 = 11 For 8-bit data mode
 	 * UCPOL   = 0 Used with the Synchronous operation only
-	 ***********************************************************************/ 	
-	UCSRC = (1<<URSEL) | (1<<UCSZ0) | (1<<UCSZ1); 
+	 ***********************************************************************/
+	/*
+	 * insert the required parity value in the fourth and fifth bits (UPM0, UPM1)
+	 * of UCSRC Register
+	 */
+	UCSRC = (UCSRC & 0xCF) | (Config_Ptr->parity <<4);
+	/*
+	 * insert the required Stop Bit value
+	 */
+	UCSRC = (UCSRC & 0xF7) | (Config_Ptr->stop_bit <<3);
+	/*
+	 * insert the required bit data value in the bit 1 and bit 2 (UCZ0, UCZ1)
+	 * of UCSRC Register and if data bit = 9 we will also edit bit 2 value in
+	 * UCSRB register
+	 */
+	if (Config_Ptr->bit_data == bit_9)
+	{
+		UCSRB = (UCSRB & 0xFB) | (Config_Ptr->bit_data <<2);
+		UCSRC = (UCSRC & 0xF9) | (((Config_Ptr->bit_data)-5) <<1);
+	}
+	else
+	{
+		UCSRC = (UCSRC & 0xF9) | (Config_Ptr->bit_data <<1);
+	}
+
+	UCSRC = (1<<URSEL) | (1<<UCSZ0) | (1<<UCSZ1) ;
 	
 	/* Calculate the UBRR register value */
-	ubrr_value = (uint16)(((F_CPU / (baud_rate * 8UL))) - 1);
+	ubrr_value = (uint16)(((F_CPU / ((Config_Ptr->baud_rate) * 8UL))) - 1);
 
 	/* First 8 bits from the BAUD_PRESCALE inside UBRRL and last 4 bits in UBRRH*/
 	UBRRH = ubrr_value>>8;

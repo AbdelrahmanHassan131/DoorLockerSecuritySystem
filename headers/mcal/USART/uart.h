@@ -16,6 +16,32 @@
 #include "std_types.h"
 
 /*******************************************************************************
+ *                               Types Declaration                             *
+ *******************************************************************************/
+
+typedef enum{
+	bit_5, bit_6, bit_7, bit_8, bit_9=8
+}UART_BitData;
+
+typedef enum{
+	Disabled, Even = 2, Odd
+}UART_Parity;
+
+typedef enum{
+	bit_1, bit_2
+}UART_StopBit;
+
+typedef uint32 UART_BaudRate; /*max Baud rate according to Data sheet 250K table 68*/
+
+
+typedef struct{
+UART_BitData bit_data;
+UART_Parity parity;
+UART_StopBit stop_bit;
+UART_BaudRate baud_rate;
+}UART_ConfigType;
+
+/*******************************************************************************
  *                      Functions Prototypes                                   *
  *******************************************************************************/
 
@@ -26,7 +52,7 @@
  * 2. Enable the UART.
  * 3. Setup the UART baud rate.
  */
-void UART_init(uint32 baud_rate);
+void UART_init(const UART_ConfigType * Config_Ptr);
 
 /*
  * Description :

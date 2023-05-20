@@ -7,10 +7,10 @@
 
 void UIECU_Init(ProtectionState *doorProtectionState)
 {
-	SREG |= (1<<7);
 	LCD_init();
 	UIECU_PasswordStage = ENTERING_PASSWORD_STATE;
-	UART_init(9600);
+	UART_ConfigType config_Ptr = {bit_7,Disabled,bit_1,9600};
+	UART_init(&config_Ptr);
 	UIECU_KeyPressed = 11;
 	*doorProtectionState = NO_PASSWORD;
 	UIECU_DoorSecuritystates = DOOR_LOCK_MAIN_MENU_STATE;
@@ -29,7 +29,7 @@ void UIECU_CreatePassword(ProtectionState *doorProtectionState)
 		break;
 	case WRITEING_PASSWORD_STATE:
 		UIECU_KeyPressed = KEYPAD_getPressedKey();
-		_delay_ms(50);
+		_delay_ms(250);
 		if (UIECU_PasswordLenght == 5 && UIECU_KeyPressed == '=')
 		{
 			UIECU_SendPassword();
@@ -52,7 +52,7 @@ void UIECU_CreatePassword(ProtectionState *doorProtectionState)
 		break;
 	case CONFIRMING_PASSWORD_STATE:
 		UIECU_KeyPressed = KEYPAD_getPressedKey();
-		_delay_ms(50);
+		_delay_ms(250);
 		if (UIECU_KeyPressed == '=' && UIECU_PasswordLenght == 5)
 		{
 			PasswordState passwordState = UIECU_IsPasswordMatching(UIECU_Password);
@@ -115,6 +115,7 @@ void UIECU_MainScreen(ProtectionState *doorProtectionState)
 			LCD_displayStringRowColumn(0, 0, "+ : Open Door");
 			LCD_displayStringRowColumn(1, 0, "- : Change Pass");
 			UIECU_Control = KEYPAD_getPressedKey();
+			_delay_ms(250);
 			if (UIECU_Control == '+' || UIECU_Control == '-')
 			{
 				LCD_displayCharacter('+');
@@ -130,7 +131,7 @@ void UIECU_MainScreen(ProtectionState *doorProtectionState)
 				LCD_moveCursor(1, 0);
 			}
 			UIECU_KeyPressed = KEYPAD_getPressedKey();
-			_delay_ms(50);
+			_delay_ms(250);
 			if (UIECU_KeyPressed == '=' && UIECU_PasswordLenght == 5)
 			{
 				PasswordState passwordState = UIECU_IsPasswordMatching(UIECU_Password);
@@ -139,14 +140,12 @@ void UIECU_MainScreen(ProtectionState *doorProtectionState)
 					UART_sendByte(UIECU_Control);
 					*doorProtectionState = UIECU_GetDoorSecuritystates();
 					UIECU_DoorSecuritystates = 	UIECU_GetDoorState();
-
-
 					UIECU_KeyPressed = 11;
 				}
 				else if (passwordState == PASSWORD_STATE_BUZZER)
 				{
 					LCD_clearScreen();
-					LCD_displayStringRowColumn(0, 0, "Error");
+					LCD_displayStringRowColumn(0, 0, "Error 3 Times");
 					UART_recieveByte();
 					UIECU_PasswordLenght = 0;
 					UIECU_DoorSecuritystates = DOOR_LOCK_MAIN_MENU_STATE;

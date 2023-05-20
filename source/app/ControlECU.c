@@ -1,4 +1,3 @@
-#include "lcd.h"
 #include "uart.h"
 #include "ControlECU.h"
 #include "external_eeprom.h"
@@ -11,9 +10,9 @@
 void ControlECU_Init(ProtectionState *doorProtectionState)
 {
 	SREG |= (1<<7);
-	LCD_init();
 	DCMotor_Init();
-	UART_init(9600);
+	UART_ConfigType config_Ptr = {bit_7,Disabled,bit_1,9600};
+	UART_init(&config_Ptr);
 	TWI_ConfigType twiConfigType = {0x00,400000};
 	TWI_init(&twiConfigType);
 	m_PasswordStage = ENTERING_PASSWORD_STATE;
@@ -55,7 +54,6 @@ void ControlECU_CreatePassword(ProtectionState *doorProtectionState)
 	{
 		case ENTERING_PASSWORD_STATE:
 			ControlECU_ReceivePassword();
-			LCD_displayString("Received Password");
 			m_PasswordStage = CONFIRMING_PASSWORD_STATE;
 			break;
 		case CONFIRMING_PASSWORD_STATE:
@@ -95,14 +93,10 @@ uint8 ControlECU_ComparePasswords(uint8 * firstPassword, uint8 * secondPassword,
 
 uint8 ControlECU_CheckPasswordReceived()
 {
-	LCD_clearScreen();
-	LCD_displayStringRowColumn(0, 0, "Wait Check Pass");
 	uint8 receivedPassword[7];
 	UART_receiveString(receivedPassword);
 	uint8 savedPassword[7];
 	ControlECU_GetSavedPassword(savedPassword);
-	LCD_clearScreen();
-	LCD_displayStringRowColumn(0, 0, "got Saved Pass ");
 	uint8 isPasswordCorrect =  ControlECU_ComparePasswords(receivedPassword, savedPassword, 5);
 	return isPasswordCorrect;
 }
@@ -112,7 +106,7 @@ void ControlECU_GetSavedPassword(uint8 *passwordSaved)
 {
 	for (uint8 i = 0 ; i < 5; i++)
 	{
-		LCD_intgerToString(EEPROM_readByte(0x00 + i, &passwordSaved[i]));
+		EEPROM_readByte(0x00 + i, &passwordSaved[i]);
 		_delay_ms(10);
 	}
 }
@@ -181,9 +175,6 @@ void ControlECU_CallBackTimer1_tickCounter()
 void CECU_WaitSeconds(uint8 timeToWait)
 {
 	CECU_waitSeconds = timeToWait;
-	LCD_clearScreen();
-	LCD_displayStringRowColumn(0, 0, "ERROR WAIT 1");
-	LCD_moveCursor(1, 0);
 	Timer1_ConfigType configType = {0,0x1E85,TIMER1_PRESCALER_1024,TIMER1_MODE_COMPARE};
 	Timer1_Init(&configType);
 	Timer1_SetCallBack(ControlECU_CallBackTimer1_tickCounter);
