@@ -8,11 +8,12 @@
  *
  * Author: Mohamed Tarek
  *
+ *
  *******************************************************************************/
 
 #ifndef STD_TYPES_H_
 #define STD_TYPES_H_
-
+#define ECU 1
 /* Boolean Data Type */
 typedef unsigned char boolean;
 
@@ -29,9 +30,18 @@ typedef unsigned char boolean;
 
 #define NULL_PTR    ((void*)0)
 
+typedef enum {
+	DOOR_STATE_OPENED,
+	DOOR_STATE_CLOSED
+} DoorState;
+typedef enum {
+	DOOR_LOCK_MAIN_MENU_STATE,
+	DOOR_LOCK_ENTER_PASSWORD_STATE,
+	DOOR_LOCK_DOOR_OPENING_STATE,
+	DOOR_LOCK_DOOR_CLOSING,STATE
+}DoorSecurityState;
 typedef enum
 	{NO_PASSWORD,
-	PASSWORD_CREATED,
 	PASSWORD_PROTECTED} ProtectionState;
 typedef enum {
 	ENTERING_PASSWORD_STATE,

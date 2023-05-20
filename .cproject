@@ -30,7 +30,7 @@
 							<tool id="de.innot.avreclipse.tool.compiler.winavr.app.debug.616719399" name="AVR Compiler" superClass="de.innot.avreclipse.tool.compiler.winavr.app.debug">
 								<option id="de.innot.avreclipse.compiler.option.debug.level.23882800" name="Generate Debugging Info" superClass="de.innot.avreclipse.compiler.option.debug.level"/>
 								<option id="de.innot.avreclipse.compiler.option.optimize.915027010" name="Optimization Level" superClass="de.innot.avreclipse.compiler.option.optimize"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="de.innot.avreclipse.compiler.option.incpath.1161649524" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="de.innot.avreclipse.compiler.option.incpath.1161649524" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/app}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/hal/KEYPAD}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/hal/LCD}&quot;"/>
@@ -39,6 +39,12 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/mcal/ICU}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/mcal/USART}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/hal/EEPROM}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/mcal/TWI}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/mcal/PWM}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/hal/DC-MOTOR}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/hal/BUZZERS}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DoorLockerSecuritySystem/headers/mcal/TIMERS}&quot;"/>
 								</option>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.1714008167" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>
@@ -140,4 +146,5 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="refreshScope"/>
 </cproject>

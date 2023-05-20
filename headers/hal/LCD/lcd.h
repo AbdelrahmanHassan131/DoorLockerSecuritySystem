@@ -35,7 +35,11 @@
 #define LCD_E_PORT_ID                  PORTD_ID
 #define LCD_E_PIN_ID                   PIN7_ID
 
-#define LCD_DATA_PORT_ID               PORTC_ID
+#if ECU
+#define LCD_DATA_PORT_ID               PORTB_ID
+#else
+#define LCD_DATA_PORT_ID               PORTA_ID
+#endif
 
 #if (LCD_DATA_BITS_MODE == 4)
 

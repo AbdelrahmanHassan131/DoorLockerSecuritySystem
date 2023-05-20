@@ -11,7 +11,8 @@
  *******************************************************************************/
 #include "keypad.h"
 #include "gpio.h"
-#include <util/delay.h>
+#include "lcd.h"
+#include "util/delay.h"
 
 /*******************************************************************************
  *                      Functions Prototypes(Private)                          *
@@ -57,6 +58,7 @@ uint8 KEYPAD_getPressedKey(void)
 	{
 		for(row=0 ; row<KEYPAD_NUM_ROWS ; row++) /* loop for rows */
 		{
+			_delay_ms(25);
 			/*
 			 * Each time setup the direction for all keypad port as input pins,
 			 * except this row will be output pin
@@ -68,25 +70,16 @@ uint8 KEYPAD_getPressedKey(void)
 
 			for(col=0 ; col<KEYPAD_NUM_COLS ; col++) /* loop for columns */
 			{
+				_delay_ms(25);
 				/* Check if the switch is pressed in this column */
 				if(GPIO_readPin(KEYPAD_COL_PORT_ID,KEYPAD_FIRST_COL_PIN_ID+col) == KEYPAD_BUTTON_PRESSED)
 				{
-					#if (KEYPAD_NUM_COLS == 3)
-						#ifdef STANDARD_KEYPAD
-							return ((row*KEYPAD_NUM_COLS)+col+1);
-						#else
-							return KEYPAD_4x3_adjustKeyNumber((row*KEYPAD_NUM_COLS)+col+1);
-						#endif
-					#elif (KEYPAD_NUM_COLS == 4)
-						#ifdef STANDARD_KEYPAD
-							return ((row*KEYPAD_NUM_COLS)+col+1);
-						#else
-							return KEYPAD_4x4_adjustKeyNumber((row*KEYPAD_NUM_COLS)+col+1);
-						#endif
-					#endif
+					return KEYPAD_4x4_adjustKeyNumber((row*KEYPAD_NUM_COLS)+col+1);
+
 				}
 			}
 			GPIO_setupPinDirection(KEYPAD_ROW_PORT_ID,KEYPAD_FIRST_ROW_PIN_ID+row,PIN_INPUT);
+
 		}
 	}
 }
