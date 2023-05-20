@@ -25,7 +25,7 @@ void UIECU_WritePassword(uint8 password);
 uint8 UIECU_ConfirmPassword(uint8 keyPressed);
 void UIECU_MainScreen(ProtectionState *doorProtectionState);
 ProtectionState UIECU_CheckForSavedPasswords();
-uint8 UIECU_IsPasswordMatching(uint8 *password);
+PasswordState UIECU_IsPasswordMatching(uint8 *password);
 DoorState UIECU_GetDoorState();
 ProtectionState UIECU_GetDoorSecuritystates();
 

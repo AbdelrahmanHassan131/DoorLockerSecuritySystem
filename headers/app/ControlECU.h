@@ -13,6 +13,9 @@
 uint8 CECU_Password[8];
 PasswordStage m_PasswordStage;
 uint8 CECU_SuccessiveErrorPassword;
+uint8 CECU_tick;
+uint8 CECU_continue;
+uint8 CECU_waitSeconds;
 
 void ControlECU_Init(ProtectionState *doorProtectionState);
 void ControlECU_ReceivePassword();
@@ -27,6 +30,8 @@ void ControlECU_OpenDoor();
 void ControlECU_GetSavedPassword(uint8 *passwordSaved);
 void ControlECU_ChangePassword(ProtectionState *doorProtectionState);
 void ControlECU_SecurityErrorPassword();
+void ControlECU_CallBackTimer1_tickCounter();
+void CECU_WaitSeconds(uint8 seconds);
 
 
 #endif /* HEADERS_APP_CONTROLECU_H_ */

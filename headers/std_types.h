@@ -31,6 +31,12 @@ typedef unsigned char boolean;
 #define NULL_PTR    ((void*)0)
 
 typedef enum {
+	PASSWORD_STATE_REJECTED,
+	PASSWORD_STATE_ACCEPTED,
+	PASSWORD_STATE_BUZZER
+}PasswordState;
+
+typedef enum {
 	DOOR_STATE_OPENED,
 	DOOR_STATE_CLOSED
 } DoorState;

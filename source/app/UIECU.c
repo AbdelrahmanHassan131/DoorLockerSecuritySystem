@@ -23,6 +23,7 @@ void UIECU_CreatePassword(ProtectionState *doorProtectionState)
 	case ENTERING_PASSWORD_STATE:
 		LCD_clearScreen();
 		LCD_displayStringRowColumn(0, 0, "plz enter pass: ");
+		UIECU_PasswordLenght = 0;
 		LCD_moveCursor(1, 0);
 		UIECU_PasswordStage = WRITEING_PASSWORD_STATE;
 		break;
@@ -42,7 +43,7 @@ void UIECU_CreatePassword(ProtectionState *doorProtectionState)
 
 		break;
 	case REENTERING_PASSWORD_STATE:
-		LCD_moveCursor(0, 0);
+		LCD_clearScreen();
 		LCD_displayString("plz re-enter the");
 		LCD_moveCursor(1, 0);
 		LCD_displayString("same pass: ");
@@ -54,7 +55,8 @@ void UIECU_CreatePassword(ProtectionState *doorProtectionState)
 		_delay_ms(50);
 		if (UIECU_KeyPressed == '=' && UIECU_PasswordLenght == 5)
 		{
-			if (UIECU_IsPasswordMatching(UIECU_Password))
+			PasswordState passwordState = UIECU_IsPasswordMatching(UIECU_Password);
+			if (passwordState == PASSWORD_STATE_ACCEPTED)
 			{
 				UIECU_PasswordStage = ENTERING_PASSWORD_STATE;
 				*doorProtectionState = PASSWORD_PROTECTED;
@@ -62,13 +64,20 @@ void UIECU_CreatePassword(ProtectionState *doorProtectionState)
 				LCD_moveCursor(0, 0);
 				UIECU_PasswordLenght = 0;
 				UIECU_KeyPressed = 11;
+				UIECU_DoorSecuritystates = DOOR_LOCK_MAIN_MENU_STATE;
 			}
-			else
+			else if (passwordState == PASSWORD_STATE_REJECTED)
 			{
 				UIECU_PasswordStage = ENTERING_PASSWORD_STATE;
 				LCD_clearScreen();
 				LCD_moveCursor(0, 0);
 				UIECU_PasswordLenght = 0;
+			}
+			else if (passwordState == PASSWORD_STATE_BUZZER)
+			{
+				LCD_clearScreen();
+				LCD_displayStringRowColumn(0, 0, "Error");
+				UART_recieveByte();
 			}
 		}
 		else
@@ -87,7 +96,7 @@ void UIECU_WritePassword(uint8 passwordChar)
 	{
 		UIECU_Password[UIECU_PasswordLenght] = passwordChar + '0';
 		UIECU_PasswordLenght++;
-		LCD_intgerToString(passwordChar);
+		LCD_displayCharacter('*');
 	}
 }
 
@@ -117,15 +126,15 @@ void UIECU_MainScreen(ProtectionState *doorProtectionState)
 			if (UIECU_KeyPressed == 11)
 			{
 				LCD_clearScreen();
-				LCD_displayString("plz enter pass: ");
+				LCD_displayString("plz enter pass:+ ");
 				LCD_moveCursor(1, 0);
 			}
 			UIECU_KeyPressed = KEYPAD_getPressedKey();
 			_delay_ms(50);
 			if (UIECU_KeyPressed == '=' && UIECU_PasswordLenght == 5)
 			{
-				LCD_displayCharacter('/');
-				if (UIECU_IsPasswordMatching(UIECU_Password))
+				PasswordState passwordState = UIECU_IsPasswordMatching(UIECU_Password);
+				if (passwordState == PASSWORD_STATE_ACCEPTED)
 				{
 					UART_sendByte(UIECU_Control);
 					*doorProtectionState = UIECU_GetDoorSecuritystates();
@@ -133,6 +142,14 @@ void UIECU_MainScreen(ProtectionState *doorProtectionState)
 
 
 					UIECU_KeyPressed = 11;
+				}
+				else if (passwordState == PASSWORD_STATE_BUZZER)
+				{
+					LCD_clearScreen();
+					LCD_displayStringRowColumn(0, 0, "Error");
+					UART_recieveByte();
+					UIECU_PasswordLenght = 0;
+					UIECU_DoorSecuritystates = DOOR_LOCK_MAIN_MENU_STATE;
 				}
 				else
 				{

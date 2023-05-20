@@ -58,7 +58,7 @@ uint8 KEYPAD_getPressedKey(void)
 	{
 		for(row=0 ; row<KEYPAD_NUM_ROWS ; row++) /* loop for rows */
 		{
-			_delay_ms(25);
+			_delay_ms(5);
 			/*
 			 * Each time setup the direction for all keypad port as input pins,
 			 * except this row will be output pin
@@ -70,7 +70,7 @@ uint8 KEYPAD_getPressedKey(void)
 
 			for(col=0 ; col<KEYPAD_NUM_COLS ; col++) /* loop for columns */
 			{
-				_delay_ms(25);
+				_delay_ms(5);
 				/* Check if the switch is pressed in this column */
 				if(GPIO_readPin(KEYPAD_COL_PORT_ID,KEYPAD_FIRST_COL_PIN_ID+col) == KEYPAD_BUTTON_PRESSED)
 				{
