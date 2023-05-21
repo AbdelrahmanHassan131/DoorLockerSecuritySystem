@@ -11,8 +11,7 @@ void ControlECU_Init(ProtectionState *doorProtectionState)
 {
 	SREG |= (1<<7);
 	DCMotor_Init();
-	UART_ConfigType config_Ptr = {bit_7,Disabled,bit_1,9600};
-	UART_init(&config_Ptr);
+	UART_init(9600);
 	TWI_ConfigType twiConfigType = {0x00,400000};
 	TWI_init(&twiConfigType);
 	m_PasswordStage = ENTERING_PASSWORD_STATE;

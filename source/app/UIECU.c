@@ -7,10 +7,10 @@
 
 void UIECU_Init(ProtectionState *doorProtectionState)
 {
+	SREG |= (1<<7);
 	LCD_init();
 	UIECU_PasswordStage = ENTERING_PASSWORD_STATE;
-	UART_ConfigType config_Ptr = {bit_7,Disabled,bit_1,9600};
-	UART_init(&config_Ptr);
+	UART_init(9600);
 	UIECU_KeyPressed = 11;
 	*doorProtectionState = NO_PASSWORD;
 	UIECU_DoorSecuritystates = DOOR_LOCK_MAIN_MENU_STATE;
@@ -127,7 +127,7 @@ void UIECU_MainScreen(ProtectionState *doorProtectionState)
 			if (UIECU_KeyPressed == 11)
 			{
 				LCD_clearScreen();
-				LCD_displayString("plz enter pass:+ ");
+				LCD_displayString("plz enter pass: ");
 				LCD_moveCursor(1, 0);
 			}
 			UIECU_KeyPressed = KEYPAD_getPressedKey();
@@ -140,6 +140,8 @@ void UIECU_MainScreen(ProtectionState *doorProtectionState)
 					UART_sendByte(UIECU_Control);
 					*doorProtectionState = UIECU_GetDoorSecuritystates();
 					UIECU_DoorSecuritystates = 	UIECU_GetDoorState();
+
+
 					UIECU_KeyPressed = 11;
 				}
 				else if (passwordState == PASSWORD_STATE_BUZZER)

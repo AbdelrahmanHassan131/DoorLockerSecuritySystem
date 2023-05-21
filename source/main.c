@@ -23,6 +23,7 @@ int main()
 	return 0;
 }
 #else
+#include "lcd.h"
 #include "ControlECU.h"
 int main()
 {
